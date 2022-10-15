@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SocialsHub.Core.Models.Domains
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<table class="navbar-nav">
+    <tbody>
+        <tr>
+            @if (SignInManager.IsSignedIn(User))
+            {    
+                <td>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="UserProfile" asp-route-id="@null">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                </td>
+                <td class ="nav-item dropdown">
+                    <a class="nav-link" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-gear-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Ustawienia</a>
+                        </li>
+                        <li>
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Profiles", "Profile", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link text-dark">Wyloguj</button>
+                            </form>
+                        </li>
+                    </ul>
+                </td>
+
+            }
+            else
+            {
+                <td class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Zarejestruj</a>
+                </td>
+                <td class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Zaloguj</a>
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>

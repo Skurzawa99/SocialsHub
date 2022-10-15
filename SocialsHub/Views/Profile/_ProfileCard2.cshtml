@@ -1,0 +1,111 @@
+﻿@using SocialsHub.Core.Models
+@model IEnumerable<SocialsHub.Core.Models.Dtos.ProfileDto>
+
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var profile in Model)
+        {
+            <table class="col-lg-3">
+                <tbody class="d-flex p-3 card-custom flex-column">
+                    <tr class="d-flex justify-content-center" onclick="location.href = '@Url.Action("UserProfile", "Profile", new { userId = profile.Id })'">
+                        <td>
+                            <img src="~/Images/@profile.Image"
+                            class="img-profile rounded-circle"
+                            alt="img 1"
+                            asp-append-version="true" />
+
+                        </td>
+                    </tr>
+                    <tr onclick="location.href = '@Url.Action("UserProfile", "Profile", new { userId = profile.Id })'">
+                        <td>
+                            <h5>@profile.Name</h5>
+                        </td>
+                    </tr>
+                    <tr onclick="location.href = '@Url.Action("UserProfile", "Profile", new { userId = profile.Id })'">
+                        <td>
+                            <textarea class="cursor-pointer" wrap="hard" rows="5" readonly>
+                                @if (!string.IsNullOrWhiteSpace(profile.Description))
+                                {
+                                    if (profile.Description.Length <= 50)
+                                        @profile.Description
+                                    else
+                                    {
+                                        @profile.Description.Substring(0, 50)
+                                        <text>...</text>
+                                    }
+                                }
+                                else
+                                {
+                                    <text>...</text>
+                                } 
+                                </textarea>
+                        </td>
+                    </tr>
+                    <tr class="d-flex justify-content-center">
+                        <td class="social-icon">
+                            @if (!string.IsNullOrWhiteSpace(profile.Facebook))
+                            {
+                                <i class="bi bi-facebook" onclick="window.open('@profile.Facebook');"></i>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(profile.Instagram))
+                            {
+                                <i class="bi bi-instagram" onclick="window.open('@profile.Instagram');"></i>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(profile.Twitter))
+                            {
+                                <i class="bi bi-twitter" onclick="window.open('@profile.Twitter');"></i>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(profile.YouTube))
+                            {
+                                <i class="bi bi-youtube" onclick="window.open('@profile.YouTube');"></i>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(profile.GitHub))
+                            {
+                                if (string.IsNullOrWhiteSpace(profile.Facebook)
+                                || string.IsNullOrWhiteSpace(profile.Instagram)
+                                || string.IsNullOrWhiteSpace(profile.Twitter)
+                                || string.IsNullOrWhiteSpace(profile.YouTube))
+                                {
+                                    <i class="bi bi-github" onclick="window.open('@profile.GitHub');"></i>
+                                }
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(profile.Linkedin))
+                            {
+                                if (string.IsNullOrWhiteSpace(profile.Facebook)
+                                || string.IsNullOrWhiteSpace(profile.Instagram)
+                                || string.IsNullOrWhiteSpace(profile.Twitter)
+                                || string.IsNullOrWhiteSpace(profile.YouTube)
+                                || string.IsNullOrWhiteSpace(profile.GitHub))
+                                {
+                                    <i class="bi bi-linkedin" onclick="window.open('@profile.Linkedin');"></i>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    @if (string.IsNullOrWhiteSpace(profile.Facebook)
+                    && string.IsNullOrWhiteSpace(profile.Instagram)
+                    && string.IsNullOrWhiteSpace(profile.Twitter)
+                    && string.IsNullOrWhiteSpace(profile.GitHub)
+                    && string.IsNullOrWhiteSpace(profile.YouTube)
+                    && string.IsNullOrWhiteSpace(profile.Linkedin))
+                    {
+                        <tr class="d-flex justify-content-center">
+                            <td>
+                                <i class="bi bi-three-dots"></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+    }
+</div>
+

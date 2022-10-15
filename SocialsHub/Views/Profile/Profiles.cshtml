@@ -1,0 +1,56 @@
+﻿@using SocialsHub.Core.Models
+@model PaginatedList<SocialsHub.Core.Models.Dtos.ProfileDto>
+
+@{
+    ViewData["Title"] = "Socials";
+}
+
+<div class="mb-5 mt-5 float-center">
+    SocialsHub
+    <h5>Stwórz profil, dodaj swoje prace i podziel się z innymi.</h5>
+</div>
+
+<div class="container">
+    <form asp-action="Profiles" method="get">
+        <div class="col-lg-10 offset-lg-1 mb-4">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Wyszukaj po nazwie" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                <div class="input-group-append">
+                    <button type="submit" class="input-group-text" id="basic-addon2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr />
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <a asp-action="Profiles"
+                       asp-route-pageNumber="@(Model.PageIndex - 1)"
+                       class="btn btn-secondary btn-roll me-1 @prevDisabled">
+                        &#8592
+                    </a>
+                </td>
+                <td>
+                    @await Html.PartialAsync("_ProfileCard2.cshtml", Model)
+                </td>
+                <td>
+                    <a asp-action="Profiles"
+                       asp-route-pageNumber="@(Model.PageIndex + 1)"
+                       class="btn btn-secondary btn-roll btn-end ms-1 @nextDisabled">
+                        &#8594
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

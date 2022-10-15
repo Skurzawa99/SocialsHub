@@ -1,0 +1,76 @@
+﻿@model SocialsHub.Core.Models.Dtos.ProfileDto
+
+
+@using (Html.BeginForm("EditIcon", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="modal fade" id="editIconModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Social media</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <i class="bi bi-facebook"></i>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.Facebook, new{ @class = "form-control", autofocus="autofocus", placeholder="https://url"})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-instagram"></i>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.Instagram, new{ @class = "form-control", autofocus="autofocus", placeholder="https://url"})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-twitter"></i>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.Twitter, new{ @class = "form-control", autofocus="autofocus", placeholder="https://url"})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-youtube"></i>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.YouTube, new{ @class = "form-control", autofocus="autofocus", placeholder="https://url"})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-github"></i>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.GitHub, new{ @class = "form-control", autofocus="autofocus", placeholder="https://url"})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="bi bi-linkedin"></i>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.Linkedin, new{ @class = "form-control", autofocus="autofocus", placeholder="https://url"})
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="float-lg-end">
+                    <button class="btn btn-secondary" type="button" id="btnHideModal">Anuluj</button>
+                    <button class="btn btn-primary" type="submit">Zapisz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SocialsHub.Core.Models.Domains
+@inject SignInManager<ApplicationUser> signInManager;
+@model SocialsHub.Core.ViewModels.ProfileViewModel
+
+@Html.AntiForgeryToken()
+<div class="d-flex justify-content-center mb-3">
+    <img src="~/Images/@Model.ProfileDto.Image"
+         class="img-fluid"
+         alt="img 1"
+         asp-append-version="true" />
+</div>
+@if (signInManager.IsSignedIn(User) && User.Identity.Name == @Model.ProfileDto.Name)
+{
+    <div class="form-control">
+        <input asp-for="Image" accept="image/*" />
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+}

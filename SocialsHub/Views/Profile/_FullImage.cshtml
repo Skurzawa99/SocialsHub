@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SocialsHub.Core.Models.Domains
+@inject SignInManager<ApplicationUser> signInManager;
+@model SocialsHub.Core.ViewModels.ProfileViewModel
+
+@using (Html.BeginForm("FullImage", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <form data-ajax="true" data-ajax-update="#addImageDetails" data-ajax-complete="OnComplete">
+        <div class="modal fade" id="fullImageModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body" id="addImageDetails">
+                        @await Html.PartialAsync("_FullImageDetails", Model)
+                    </div>
+                    @if (signInManager.IsSignedIn(User) && User.Identity.Name == @Model.ProfileDto.Name)
+                    {
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                            <button class="btn btn-primary" type="submit">Zapisz</button>
+                        </div>    
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+}

@@ -1,0 +1,221 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SocialsHub.Core.Models.Domains
+@using SocialsHub.Persistance.Extensions
+@inject SignInManager<ApplicationUser> signInManager;
+@model SocialsHub.Core.ViewModels.ProfileViewModel
+
+@{
+    if (!(signInManager.IsSignedIn(User) /*&& User.Identity.Name == Model.ProfileDto.Name*/))
+        Layout = "_layoutProfile";
+}
+<div class="container">
+    @if (signInManager.IsSignedIn(User) && User.Identity.Name == Model.ProfileDto.Name)
+    {
+        <div class="link" onclick="copy()">
+            <label class="small-bold">Twój link</label>
+            <input class="link-input" type="text" value="@Url.AbsoluteContent("~/Profile/UserProfile?userId="+@Model.ProfileDto.Id)" id="myInput">
+        </div>
+        <hr />
+        <div class="row mb-3">
+            <div class="col-lg-2 offset-lg-3">
+                <div class="wrapper-image" onclick="fullImage('@Model.ProfileDto.Id')">
+                    <img src="~/Images/@Model.ProfileDto.Image" class="img-fluid rounded-circle cursor-pointer" alt="img 1" asp-append-version="true" />
+                    <div class="button-icon">
+                        <a href="#" class="icon" title="User Profile">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h3 class="mb-2">@Model.ProfileDto.Name</h3>
+                <div class="wrapper-image" onclick="editDesc()">
+                    @if (!string.IsNullOrWhiteSpace(Model.ProfileDto.Description))
+                    {
+                        <textarea class="mb-3" wrap="hard" rows="5" readonly>@Model.ProfileDto.Description</textarea>
+                    }
+                    else
+                    {
+                        <textarea class="mb-3" wrap="hard" rows="5" readonly>...</textarea>
+                    }
+                    <div class="button-icon">
+                        <a href="#" class="icon" title="User Profile">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="col-lg-9 offset-lg-2">
+                <tbody>
+                    <tr>
+                        <td class="col-lg-8">
+                            <div class="d-flex justify-content-center">
+                                @await Html.PartialAsync("_Icons.cshtml", Model.ProfileDto)
+                            </div>
+                        </td>
+                        <td class="col-lg-1">
+                            <div class="wrapper">
+                                <div class="button btn-addIcon" onclick="editIcon()">
+                                    <div class="icon"><i class="bi bi-plus-circle"></i></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        @await Html.PartialAsync("_EnableReferences.cshtml", Model)
+
+        <table class="col-lg-8 offset-lg-2">
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="wrapper-reference">
+                            <div class="button btn-addReference" onclick="addEditReference()">
+                                <div class="icon"><i class="bi bi-plus-circle"></i></div>
+                                <span>Dodaj odnośnik</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @await Html.PartialAsync("_DisableReferences.cshtml", Model)
+        @await Html.PartialAsync("_AddEditReference", Model.ReferenceDto)
+        @await Html.PartialAsync("_FullImage", Model)
+
+        <div id="partialEditDescription"></div>
+        <div id="partialEditIcon"></div>
+    }
+    else
+    {
+        <div class="row mb-3">
+            <div class="col-lg-2 offset-lg-3" onclick="fullImage('@Model.ProfileDto.Id')">
+                <img src="~/Images/@Model.ProfileDto.Image" class="img-fluid rounded-circle cursor-pointer" alt="img 1" asp-append-version="true" />
+            </div>
+            <div class="col-lg-4">
+                <h3 class="mb-2">@Model.ProfileDto.Name</h3>
+                @if (!string.IsNullOrWhiteSpace(Model.ProfileDto.Description))
+                {
+                    <textarea class="mb-3" wrap="hard" rows="5" readonly>@Model.ProfileDto.Description</textarea>
+                }
+                else
+                {
+                    <textarea class="mb-3" wrap="hard" rows="5" readonly>...</textarea>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <table class="col-lg-9 offset-lg-2">
+                <tbody>
+                    <tr>
+                        <td class="col-lg-8">
+                            <div class="d-flex justify-content-center">
+                                @await Html.PartialAsync("_Icons.cshtml", Model.ProfileDto)
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr />
+        @await Html.PartialAsync("_EnableReferences.cshtml", Model)
+        @await Html.PartialAsync("_FullImage", Model)
+    }
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript">
+
+        function OnComplete() {
+            $("#addEditReferenceModal").modal("hide");
+        }
+
+        function addEditReference(id) {
+            var url = "@Url.Action("AddEditReference", "Profile")" + '?id=' + id;
+            $("#addEditReferenceDetails").load(url, function () {
+                $("#addEditReferenceModal").modal("show");
+
+            });
+        }
+
+        function fullImage(id) {
+            var url = "@Url.Action("FullImage", "Profile")" + '?id=' + id;
+            $("#addImageDetails").load(url, function () {
+                $("#fullImageModal").modal("show");
+
+            });
+        }
+
+        function editDesc() {
+            var url = "@Url.Action("EditDescription", "Profile")";
+            $("#partialEditDescription").load(url, function () {
+                $("#editDescModal").modal("show");
+
+                $("#btnHideModal").click(function () {
+                    $("#editDescModal").modal('hide');
+
+                })
+                    
+            });
+        }
+
+        function editIcon() {
+            var url = "@Url.Action("EditIcon", "Profile")";
+            $("#partialEditIcon").load(url, function () {
+                $("#editIconModal").modal("show");
+
+                $("#btnHideModal").click(function () {
+                    $("#editIconModal").modal('hide');
+                    
+                })
+            });
+        }
+       
+
+        function copy() {
+
+            var copyText = document.getElementById("myInput");
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(copyText.value);
+
+            alert("Tekst do skopiowania: " + copyText.value);
+        }
+
+        function deleteReference(id, btn) {
+
+            if (!confirm("Czy na pewno chcesz usunąc odnośnik"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteReference", "Profile")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    } else {
+                        alert(data.message)
+                    }
+                },
+                error: function (data) {
+                    alert(data.message)
+                },
+                dataType: "json"
+            });
+        }
+
+    </script>
+}

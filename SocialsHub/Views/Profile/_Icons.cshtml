@@ -1,0 +1,55 @@
+﻿@model SocialsHub.Core.Models.Dtos.ProfileDto
+
+<div class="wrapper">
+    @if (!string.IsNullOrWhiteSpace(Model.Facebook))
+    {
+        <div class="button btn-facebook" onclick="window.open('@Model.Facebook');">
+            <div class="icon"><i class="bi bi-facebook"></i></div>
+            <span>Facebook</span>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Instagram))
+    {
+        <div class="button btn-instagram" onclick="window.open('@Model.Instagram');">
+            <div class="icon"><i class="bi bi-instagram"></i></div>
+            <span>Instagram</span>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Twitter))
+    {
+        <div class="button btn-twitter" onclick="window.open('@Model.Twitter');">
+            <div class="icon"><i class="bi bi-twitter"></i></div>
+            <span>Twitter</span>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.YouTube))
+    {
+        <div class="button btn-youtube" onclick="window.open('@Model.YouTube');">
+            <div class="icon"><i class="bi bi-youtube"></i></div>
+            <span>YouTube</span>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.GitHub))
+    {
+        <div class="button btn-github" onclick="window.open('@Model.GitHub');">
+            <div class="icon"><i class="bi bi-github"></i></div>
+            <span>GitHub</span>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Linkedin))
+    {
+        <div class="button btn-linkedin" onclick="window.open('@Model.Linkedin');">
+            <div class="icon"><i class="bi bi-linkedin"></i></div>
+            <span>Linkedin</span>
+        </div>
+    }
+</div>
+
+
+    
+

@@ -1,0 +1,28 @@
+﻿@model SocialsHub.Core.Models.Dtos.ProfileDto
+
+
+@using (Html.BeginForm("EditDescription", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" id="editDescModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Opis</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        @Html.LabelFor(x => x.Description)
+                        @Html.TextAreaFor(x => x.Description, new{ @class = "form-control", autofocus="autofocus", rows="10"})
+                        <label class="small-bold">Nie jest wymagany</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="float-lg-end">
+                        <button class="btn btn-secondary" id="btnHideModal">Anuluj</button>
+                        <button class="btn btn-primary" type="submit">Zapisz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

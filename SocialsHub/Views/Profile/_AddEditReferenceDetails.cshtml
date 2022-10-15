@@ -1,0 +1,26 @@
+﻿@model SocialsHub.Core.Models.Dtos.ReferenceDto
+
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(x => x.Id)
+<div class="mb-3">
+    @Html.LabelFor(x => x.Name)
+    @Html.TextBoxFor(x => x.Name, new{ @class = "form-control", autofocus="autofocus"})
+    @Html.ValidationMessageFor(x => x.Name)
+</div>
+<div class="mb-3">
+    @Html.LabelFor(x => x.Description)
+    @Html.TextAreaFor(x => x.Description, new{ @class = "form-control", autofocus="autofocus", rows="10"})
+    <label class="small-bold">Nie jest wymagany</label>
+</div>
+<div class="mb-3">
+    @Html.LabelFor(x => x.Link)
+    @Html.TextBoxFor(x => x.Link, new{ @class = "form-control", autofocus="autofocus"})
+    @Html.ValidationMessageFor(x => x.Link)
+</div>
+<div class="form-check form-switch mb-3">
+    @Html.LabelFor(x => x.Enable,  new{ @class = "checkbox-label-margin"})
+    @Html.CheckBoxFor(x => x.Enable, new{ @class = "form-check-input", type="checkbox", id="flexSwitchCheckChecked"})
+</div>
+
+

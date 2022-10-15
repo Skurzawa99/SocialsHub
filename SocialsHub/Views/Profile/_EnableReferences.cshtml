@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SocialsHub.Core.Models.Domains
+@inject SignInManager<ApplicationUser> signInManager;
+@model SocialsHub.Core.ViewModels.ProfileViewModel
+
+@if (Model.References != null && Model.References.Any())
+{
+    @foreach (var reference in Model.References)
+    {
+        if (reference.Enable ==true)
+        {
+            <div class="wrapper-reference row mb-3">
+                <table class="col-lg-10 offset-lg-2">
+                    <tbody>
+                        <tr>
+                            <td class="col-lg-8">
+                                <div class="button" onclick="window.open('@reference.Link');">
+                                    <div class="btn-reference">
+                                        <p class="pre-wrap"><span>@reference.Name</span></p>
+                                        @if (!string.IsNullOrWhiteSpace(reference.Description))
+                                        {
+                                            <p class="pre-wrap">@reference.Description</p>
+                                        }
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td class="col-lg-2">
+                                @if (signInManager.IsSignedIn(User) && User.Identity.Name == Model.ProfileDto.Name)
+                                {
+                                    <div class="button-icon delete" onclick="deleteReference('@reference.Id', this)">
+                                        <div class="icon"><i class="bi bi-x-circle"></i></div>
+                                    </div>
+                                    <div class="button-icon edit" onclick="addEditReference('@reference.Id')">
+                                        <div class="icon"><i class="bi bi-pencil-square"></i></div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }    
+    }
+}
